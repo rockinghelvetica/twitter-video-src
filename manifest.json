@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Twitter Inline Scripting Extension",
+  "version": "1.0",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+        "resources": ["twitter-video-src.js"],
+        "matches": ["https://twitter.com/*"]
+    }
+],
+  "host_permissions": ["https://twitter.com/*"]
+}
