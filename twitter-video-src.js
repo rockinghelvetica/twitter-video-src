@@ -33,23 +33,44 @@
                 }
                 let videoComponent = event.target.closest('div[data-testid="videoComponent"]');
                 let variants = getVariantsFromMemo(videoComponent);
-                let highestBitrateVariant = variants.reduce((highest, variant) => {
-                    if(variant.bitrate && (!highest || variant.bitrate > highest.bitrate)) {
-                        return variant;
-                    } else {
-                        return highest;
-                    }
-                }, null);
+                
+                // Exit here if something is wrong.
+                if (variants.length === 0) {
+                    console.log("No video assets found.");
+                    return;
+                }
+
+                let highestBitrateVariant = variants.slice(1).reduce((highest, variant) => {
+                    return (variant.bitrate && (!highest || variant.bitrate > highest.bitrate)) ? variant : highest;
+                }, variants[0]);
                 
                 // Create a link to open 
                 let downloadname = getSanitizedTweetUrlFromVideoMenu(event.target) || "tweet-video";
                 let a = document.createElement('a');
                 console.log(downloadname);
-                a.href = highestBitrateVariant.src;
-                a.download = downloadname + '.mp4';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+
+                // Should expose this as an option for the extension if preferred vs. direct download
+                // a.href = highestBitrateVariant.src;
+                // a.download = downloadname + '.mp4';
+                // document.body.appendChild(a);
+                // a.click();
+                // document.body.removeChild(a);
+
+                // Trying some shit, should work unless videos are over 500MB somehow?
+                fetch(highestBitrateVariant.src)
+                .then(response => response.blob())
+                .then(blob => {
+                    let url = URL.createObjectURL(blob);
+                    let a = document.createElement('a');
+                    a.href = url;
+                    a.download = downloadname + '.mp4';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                })
+                .catch(error => console.error(error));
+
+
             }, true);
 
         } else {
