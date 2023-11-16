@@ -1,6 +1,6 @@
 The Twitter web app has an evil handling of videos, taking over the context menu action to show "Copy video Address" which then copies the Tweet URL to one's clipboard. This extension finds & presents the highest quality video asset.
 
-~Due to cross-origin restrictions this opens the asset in a new window opposed to a direct download using the suggested name.~ fixed it with a blog
+~Due to cross-origin restrictions this opens the asset in a new window opposed to a direct download using the suggested name.~ fixed it with Blob
 
 No dependencies, but fragile until further development:
 
