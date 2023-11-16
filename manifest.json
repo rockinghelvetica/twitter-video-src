@@ -1,15 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Twitter Inline Scripting Extension",
+  "name": "Twitter Video Menu Extension",
   "version": "1.0",
-  "permissions": ["activeTab", "storage", "scripting"],
-  "action": {
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "options_page": "options.html",
+  "permissions": ["activeTab", "scripting"],
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*"],
